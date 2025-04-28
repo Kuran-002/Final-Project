@@ -11,7 +11,7 @@ public class YahtzeeGameLogic {
     {
         diceSet = new DiceSet();
         scoreBoard = new ScoreBoard();
-        rollButton = new RollButton(null, 200, 100);
+        
     }
 
     public String getDiceState() 

@@ -8,8 +8,7 @@ public class YahtzeeGui extends JFrame {
     private final int WINDOW_HEIGHT = 600;
 
     private YahtzeeGameLogic model;  // Your game logic model
-    private JButton[] diceButtons;   // Buttons for each dice
-    private RollButton rollButton;      // Button to roll the dice
+    private JLabel rollremainLabel;  // The label to show roll remaining
 
     // Constructor
     public YahtzeeGui(YahtzeeGameLogic gameModel) {
@@ -30,13 +29,20 @@ public class YahtzeeGui extends JFrame {
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
-        backgroundPanel.setLayout(null); // You can choose other layouts too
+        backgroundPanel.setLayout(null);
 
-        // Example: create and add a Roll button
-        rollButton = new RollButton("Roll", 250, 30);
+        // Create rollremainLabel to show remaining rolls
+        rollremainLabel = new JLabel("Roll remain: " + model.getRollRemaining());
+        rollremainLabel.setForeground(Color.WHITE);
+        rollremainLabel.setBounds(30, 10, 200, 40); // x, y, width, height
+        backgroundPanel.add(rollremainLabel);
+
+        // Create roll button and add it to background panel
+        RollButton rollButton = new RollButton("Roll", 250, 30, model, rollremainLabel);
         rollButton.setBounds(350, 500, 100, 40); // x, y, width, height
         backgroundPanel.add(rollButton);
 
+        // Set the content pane and make it visible
         setContentPane(backgroundPanel);
         setVisible(true);
     }
