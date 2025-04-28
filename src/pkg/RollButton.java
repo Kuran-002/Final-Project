@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class RollButton extends JButton {
 
-    public RollButton(String text, int width, int height, JLabel rollLeftLabel) {
+    public RollButton(String text, int width, int height) {
         super(text);
 
         // Load and scale images

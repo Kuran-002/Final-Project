@@ -4,22 +4,30 @@ public class YahtzeeGameLogic {
     private int rollRemaining = 3;
     private DiceSet diceSet;
     private ScoreBoard scoreBoard;
+    private RollButton rollButton;
+    
 
-    public YahtzeeGameLogic() {
+    public YahtzeeGameLogic() 
+    {
         diceSet = new DiceSet();
         scoreBoard = new ScoreBoard();
+        rollButton = new RollButton(null, 200, 100);
     }
 
-    public String getDiceState() {
+    public String getDiceState() 
+    {
         return diceSet.toString();  // Return the current dice state as a string
     }
 
-    public int getRollRemaining() {
+    public int getRollRemaining() 
+    {
         return rollRemaining;  // Get the number of rolls remaining
     }
 
-    public boolean rollDice() {
-        if (rollRemaining > 0) {
+    public boolean rollDice() 
+    {
+        if (rollRemaining > 0) 
+        {
             diceSet.rollUnheld();  // Roll only unheld dice
             rollRemaining--;       // Decrease remaining rolls
             return true;           // Successful roll
@@ -27,8 +35,10 @@ public class YahtzeeGameLogic {
         return false;  // No rolls remaining
     }
 
-    public boolean holdDice(int diceIndex) {
-        if (diceIndex >= 0 && diceIndex < 5) {
+    public boolean holdDice(int diceIndex) 
+    {
+        if (diceIndex >= 0 && diceIndex < 5) 
+        {
             diceSet.holdOneDice(diceIndex);  // Hold the specified dice
             return true;
         }
@@ -40,8 +50,10 @@ public class YahtzeeGameLogic {
         return true;
     }
 
-    public boolean scoreCategory(String category) {
-        switch (category.toLowerCase()) {
+    public boolean scoreCategory(String category) 
+    {
+        switch (category.toLowerCase()) 
+        {
             case "ones": return scoreCategoryOnes();
             case "twos": return scoreCategoryTwos();
             case "threes": return scoreCategoryThrees();
