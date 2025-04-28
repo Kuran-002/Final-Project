@@ -29,6 +29,14 @@ public class DiceSet {
 			 }         
 	     } 
 	 }
+	 public void unholdAll()
+	 {
+		 for (int i = 0; i < 5; i++) 
+		 {
+	            diceArray[i].release();
+	     } 
+	 }
+	 
 	 public void holdOneDice(int i)
 	 {
 		 diceArray[i].hold();

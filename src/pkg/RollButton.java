@@ -3,9 +3,9 @@ package pkg;
 import javax.swing.*;
 import java.awt.*;
 
-public class Button extends JButton {
+public class RollButton extends JButton {
 
-    public Button(String text, int width, int height) {
+    public RollButton(String text, int width, int height, JLabel rollLeftLabel) {
         super(text);
 
         // Load and scale images
@@ -27,8 +27,9 @@ public class Button extends JButton {
         this.setContentAreaFilled(false);
         this.setFocusPainted(false);
         this.setOpaque(false);
-        
 
         this.setForeground(Color.WHITE);
+
+        // Now add the action listener inside the constructor
     }
 }
