@@ -30,7 +30,7 @@ public class YahtzeeGameLogic {
         {
             diceSet.rollUnheld();  // Roll only unheld dice
             rollRemaining--;       // Decrease remaining rolls
-            return true;           // Successful roll
+            return true;           
         }
         return false;  // No rolls remaining
     }
