@@ -2,29 +2,26 @@ package pkg;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class RollButton extends JButton {
 
-    // Constructor for RollButton
-    public RollButton(String text, int width, int height, YahtzeeGameLogic model, JLabel rollremainLabel) {
+    public RollButton(String text, int width, int height, YahtzeeGameLogic model, JLabel rollremainLabel, List<DiceGui> diceButtons) {
         super(text);
 
-        // Load and scale images for button states
+        // Load and scale images
         ImageIcon normalIcon = new ImageIcon("Pressedbutton.png");
         ImageIcon pressedIcon = new ImageIcon("UnPressbutton.png");
         ImageIcon hoverIcon = new ImageIcon("UnPressbutton.png");
 
-        // Resize icons to match button size
         normalIcon = new ImageIcon(normalIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
         pressedIcon = new ImageIcon(pressedIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
         hoverIcon = new ImageIcon(hoverIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
 
-        // Set button icons
         this.setIcon(normalIcon);
         this.setPressedIcon(pressedIcon);
         this.setRolloverIcon(hoverIcon);
 
-        // Set text position and button appearance
         this.setHorizontalTextPosition(SwingConstants.CENTER);
         this.setVerticalTextPosition(SwingConstants.CENTER);
         this.setBorderPainted(false);
@@ -33,14 +30,17 @@ public class RollButton extends JButton {
         this.setOpaque(false);
         this.setForeground(Color.WHITE);
 
-        // Action listener for roll button
+        // Roll button logic
         this.addActionListener(e -> {
-            // Try rolling the dice
             if (model.rollDice()) {
-                // If the roll is successful, update the remaining rolls label
                 rollremainLabel.setText("Roll remain: " + model.getRollRemaining());
+
+                // Update each die's icon if not held
+                for (DiceGui diceGui : diceButtons) {
+                    diceGui.rollIfNotHeld();  // <- You'll define this method in DiceGui
+                }
+
             } else {
-                // If no rolls remain, show a message
                 JOptionPane.showMessageDialog(null, "No rolls remaining!");
             }
         });

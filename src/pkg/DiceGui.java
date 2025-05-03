@@ -31,14 +31,13 @@ public class DiceGui extends JButton {
         updateIcon(dice.getValue());
         updateHoldStyle();
 
-        // Button appearance
+        // Transparent button
         this.setHorizontalTextPosition(SwingConstants.CENTER);
         this.setVerticalTextPosition(SwingConstants.CENTER);
         this.setBorderPainted(false);
         this.setContentAreaFilled(false);
         this.setFocusPainted(false);
         this.setOpaque(false);
-        this.setForeground(Color.WHITE);
 
         // Toggle hold status on click
         this.addActionListener(e -> {
@@ -64,5 +63,13 @@ public class DiceGui extends JButton {
 
     public Dice getDice() {
         return dice;
+    }
+
+    // ✅ NEW METHOD: Roll if not held
+    public void rollIfNotHeld() {
+        if (!dice.isHeld()) {
+            dice.roll();
+            updateIcon(dice.getValue());
+        }
     }
 }

@@ -2,56 +2,77 @@ package pkg;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class YahtzeeGui extends JFrame {
-    private final int WINDOW_WIDTH = 800;
-    private final int WINDOW_HEIGHT = 600;
+    private YahtzeeGameLogic model;
+    private JLabel rollremainLabel;
 
-    private YahtzeeGameLogic model;  // Your game logic model
-    private JLabel rollremainLabel;  
-
-    // Constructor
     public YahtzeeGui(YahtzeeGameLogic gameModel) {
         this.model = gameModel;
 
         setTitle("Yahtzee Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setUndecorated(true);
+        setResizable(true);
 
-        // Load the background image
-        Image backgroundImage = new ImageIcon("Backgound.png").getImage();
-
-        // Create a custom panel that draws the image
         JPanel backgroundPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
+                Image backgroundImage = new ImageIcon("Backgound.png").getImage();
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
         backgroundPanel.setLayout(null);
 
-        // Create rollremainLabel to show remaining rolls
+        // Roll remain label (top-left)
         rollremainLabel = new JLabel("Roll remain: " + model.getRollRemaining());
         rollremainLabel.setForeground(Color.WHITE);
-        rollremainLabel.setBounds(30, 10, 200, 40); // x, y, width, height
+        rollremainLabel.setFont(new Font("Arial", Font.BOLD, 24));
         backgroundPanel.add(rollremainLabel);
 
-        // Create roll button and add it to background panel
-        RollButton rollButton = new RollButton("Roll", 250, 30, model, rollremainLabel);
-        rollButton.setBounds(350, 500, 100, 40); // x, y, width, height
-        backgroundPanel.add(rollButton);
-        Dice dice = new Dice();
-        DiceGui diceGui = new DiceGui("title", 500, 500, model, dice);
-        backgroundPanel.add(diceGui);
+        // Dice panel (bottom-center)
+        List<DiceGui> diceButtons = new ArrayList<>();
+        JPanel dicePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        dicePanel.setOpaque(false);
 
-        // Set the content pane and make it visible
+        for (int i = 0; i < 5; i++) {
+            Dice dice = new Dice();
+            DiceGui diceGui = new DiceGui("", 64, 64, model, dice);
+            diceGui.setOpaque(false);
+            diceButtons.add(diceGui);
+            dicePanel.add(diceGui);
+        }
+        backgroundPanel.add(dicePanel);
+
+        // Roll button
+        RollButton rollButton = new RollButton("Roll", 200, 50, model, rollremainLabel, diceButtons);
+        backgroundPanel.add(rollButton);
+
         setContentPane(backgroundPanel);
         setVisible(true);
+
+        // Dynamic layout based on actual screen size after frame is shown
+        SwingUtilities.invokeLater(() -> {
+            int width = getWidth();
+            int height = getHeight();
+
+            rollremainLabel.setBounds(20, 20, 300, 40);
+
+            int dicePanelWidth = 600;
+            int dicePanelHeight = 80;
+            dicePanel.setBounds((width - dicePanelWidth) / 2, height - 200, dicePanelWidth, dicePanelHeight);
+
+            int rollButtonWidth = 200;
+            int rollButtonHeight = 50;
+            rollButton.setBounds((width - rollButtonWidth) / 2, height - 100, rollButtonWidth, rollButtonHeight);
+        });
     }
 
     public static void main(String[] args) {
-        // Pass the game model instance to the GUI
         SwingUtilities.invokeLater(() -> new YahtzeeGui(new YahtzeeGameLogic()));
     }
 }
