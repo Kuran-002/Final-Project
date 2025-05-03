@@ -36,15 +36,23 @@ public class YahtzeeGui extends JFrame {
 
         // Dice panel (bottom-center)
         List<DiceGui> diceButtons = new ArrayList<>();
-        JPanel dicePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        JPanel dicePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         dicePanel.setOpaque(false);
 
+        // Add dice to the panel
         for (int i = 0; i < 5; i++) {
             Dice dice = new Dice();
             DiceGui diceGui = new DiceGui("", 64, 64, model, dice);
             diceGui.setOpaque(false);
+            diceGui.setPreferredSize(new Dimension(64, 64));
+            diceGui.setMinimumSize(new Dimension(64, 64));
+            diceGui.setMaximumSize(new Dimension(64, 64));
             diceButtons.add(diceGui);
             dicePanel.add(diceGui);
+        }
+     
+        for (DiceGui diceGui : diceButtons) {
+            diceGui.updateIcon(diceGui.getDice().getValue());  
         }
         backgroundPanel.add(dicePanel);
 
@@ -55,20 +63,29 @@ public class YahtzeeGui extends JFrame {
         setContentPane(backgroundPanel);
         setVisible(true);
 
-        // Dynamic layout based on actual screen size after frame is shown
+        // Dynamically update the layout after everything is shown
         SwingUtilities.invokeLater(() -> {
             int width = getWidth();
             int height = getHeight();
 
             rollremainLabel.setBounds(20, 20, 300, 40);
 
-            int dicePanelWidth = 600;
-            int dicePanelHeight = 80;
+            int diceCount = 5;
+            int diceWidth = 64;
+            int spacing = 20;
+            int dicePanelWidth = (diceCount * diceWidth) + ((diceCount - 1) * spacing);
+            int dicePanelHeight = 100; // Increased height
             dicePanel.setBounds((width - dicePanelWidth) / 2, height - 200, dicePanelWidth, dicePanelHeight);
 
             int rollButtonWidth = 200;
             int rollButtonHeight = 50;
             rollButton.setBounds((width - rollButtonWidth) / 2, height - 100, rollButtonWidth, rollButtonHeight);
+
+            
+
+            // Revalidate and repaint the components to ensure everything is updated correctly
+            backgroundPanel.revalidate();
+            backgroundPanel.repaint();
         });
     }
 
