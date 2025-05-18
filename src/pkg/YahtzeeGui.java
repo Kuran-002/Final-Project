@@ -10,7 +10,25 @@ public class YahtzeeGui extends JFrame {
     private JLabel rollremainLabel;
 
     public YahtzeeGui(YahtzeeGameLogic gameModel) {
-        this.model = gameModel;
+        this.model = gameModel;   
+        model.setGameListener(new YahtzeeGameLogic.GameListener() {
+            @Override
+            public void onRollRemainingReset(int newRolls) {
+                SwingUtilities.invokeLater(() -> {
+                    rollremainLabel.setText("Roll remain: " + newRolls);
+                });
+            }
+
+            @Override
+            public void onGameOver(int finalScore) {
+                SwingUtilities.invokeLater(() -> {
+                    JOptionPane.showMessageDialog(YahtzeeGui.this,
+                        "Game Over! Your total score is: " + finalScore,
+                        "Game Over", JOptionPane.INFORMATION_MESSAGE);
+                });
+            }
+        });
+       
 
         setTitle("Yahtzee Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -26,21 +44,18 @@ public class YahtzeeGui extends JFrame {
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
-        backgroundPanel.setLayout(null);  // Absolute layout for precise control
+        backgroundPanel.setLayout(null);  
 
-        // Scoreboard GUI (centered near top)
         ScoreBoardGui scoreBoardGui = new ScoreBoardGui(model);
         scoreBoardGui.setBackground(Color.BLACK);
-        scoreBoardGui.setPreferredSize(new Dimension(800, 600));  // Width x Height
+        scoreBoardGui.setPreferredSize(new Dimension(800, 600));  
         backgroundPanel.add(scoreBoardGui);
 
-        // Roll remain label (bottom-left corner)
         rollremainLabel = new JLabel("Roll remain: " + model.getRollRemaining());
         rollremainLabel.setForeground(Color.WHITE);
         rollremainLabel.setFont(new Font("Arial", Font.BOLD, 24));
         backgroundPanel.add(rollremainLabel);
 
-        // Dice panel (bottom-center)
         List<DiceGui> diceButtons = new ArrayList<>();
         JPanel dicePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         dicePanel.setOpaque(false);
@@ -59,28 +74,23 @@ public class YahtzeeGui extends JFrame {
         }
         backgroundPanel.add(dicePanel);
 
-        // Roll button (bottom-center)
         RollButton rollButton = new RollButton("Roll", 200, 50, model, rollremainLabel, diceButtons);
         backgroundPanel.add(rollButton);
 
         setContentPane(backgroundPanel);
         setVisible(true);
 
-        // Layout positioning
         SwingUtilities.invokeLater(() -> {
             int width = getWidth();
             int height = getHeight();
 
-            // Center scoreboard horizontally and position it 1/4 down from top
             Dimension sbSize = scoreBoardGui.getPreferredSize();
             int sbX = (width - sbSize.width) / 2;
             int sbY = height / 6;
             scoreBoardGui.setBounds(sbX, sbY, sbSize.width, sbSize.height);
 
-            // Roll remain label in bottom-left
             rollremainLabel.setBounds(30, height - 80, 300, 40);
 
-            // Dice panel in bottom-center
             int diceCount = 5;
             int diceWidth = 64;
             int spacing = 20;
@@ -88,7 +98,6 @@ public class YahtzeeGui extends JFrame {
             int dicePanelHeight = 100;
             dicePanel.setBounds((width - dicePanelWidth) / 2, height - 160, dicePanelWidth, dicePanelHeight);
 
-            // Roll button just above bottom-center
             int rollButtonWidth = 200;
             int rollButtonHeight = 50;
             rollButton.setBounds((width - rollButtonWidth) / 2, height - 80, rollButtonWidth, rollButtonHeight);

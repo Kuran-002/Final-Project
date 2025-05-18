@@ -5,9 +5,12 @@ public class YahtzeeGameLogic {
     private DiceSet diceSet;
     private ScoreBoard scoreBoard;
 
+    private boolean hasRolledSinceScore = false;
+
     public YahtzeeGameLogic() {
         diceSet = new DiceSet();
         scoreBoard = new ScoreBoard();
+        hasRolledSinceScore = false;
     }
 
     public String getDiceState() {
@@ -22,6 +25,7 @@ public class YahtzeeGameLogic {
         if (rollRemaining > 0) {
             diceSet.rollUnheld();
             rollRemaining--;
+            hasRolledSinceScore = true;
             return true;
         }
         return false;
@@ -42,6 +46,8 @@ public class YahtzeeGameLogic {
     public boolean scoreCategory(String category) {
         if (category == null) return false;
 
+        if (!hasRolledSinceScore) return false;
+
         category = category.trim().toLowerCase();
         boolean success = false;
         Dice[] dice = diceSet.getDiceArray();
@@ -60,7 +66,7 @@ public class YahtzeeGameLogic {
             case "twoofakind":    success = scoreBoard.calculateTwoOfaKind(dice); break;
             case "threeofakind":  success = scoreBoard.calculateThreeOfaKind(dice); break;
             case "fourofakind":   success = scoreBoard.calculateFourOfaKind(dice); break;
-            case "fullhouse":     success = scoreBoard.calculateFullHouse(dice); break;  
+            case "fullhouse":     success = scoreBoard.calculateFullHouse(dice); break;
             case "smallstraight": success = scoreBoard.calculateSmallStraight(dice); break;
             case "largestraight": success = scoreBoard.calculateLargeStraight(dice); break;
             case "yahtzee":       success = scoreBoard.calculateYahtzee(dice); break;
@@ -71,6 +77,14 @@ public class YahtzeeGameLogic {
         if (success) {
             rollRemaining = 3;
             diceSet.unholdAll();
+            hasRolledSinceScore = false;
+
+            if (gameListener != null) {
+                gameListener.onRollRemainingReset(rollRemaining);
+                if (isGameOver()) {
+                    gameListener.onGameOver(getTotalScore());
+                }
+            }
         }
 
         return success;
@@ -87,7 +101,7 @@ public class YahtzeeGameLogic {
             case "twoofakind":    return scoreBoard.isTwoOfaKindScored();
             case "threeofakind":  return scoreBoard.isThreeOfaKindScored();
             case "fourofakind":   return scoreBoard.isFourOfaKindScored();
-            case "fullhouse":     return scoreBoard.isFullHouseScored();  
+            case "fullhouse":     return scoreBoard.isFullHouseScored();
             case "smallstraight": return scoreBoard.isSmallStraightScored();
             case "largestraight": return scoreBoard.isLargeStraightScored();
             case "yahtzee":       return scoreBoard.isYahtzeeScored();
@@ -116,5 +130,26 @@ public class YahtzeeGameLogic {
         rollRemaining = 3;
         diceSet = new DiceSet();
         scoreBoard = new ScoreBoard();
+        hasRolledSinceScore = false;
+
+        // Notify listener about reset to update GUI
+        if (gameListener != null) {
+            gameListener.onRollRemainingReset(rollRemaining);
+        }
+    }
+
+    public boolean canScoreNow() {
+        return hasRolledSinceScore && rollRemaining >= 0;
+    }
+
+    private GameListener gameListener;
+
+    public void setGameListener(GameListener listener) {
+        this.gameListener = listener;
+    }
+
+    public interface GameListener {
+        void onRollRemainingReset(int newRolls);
+        void onGameOver(int finalScore);
     }
 }

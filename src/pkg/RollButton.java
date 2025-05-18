@@ -30,14 +30,14 @@ public class RollButton extends JButton {
         this.setOpaque(false);
         this.setForeground(Color.WHITE);
 
-        // Roll button logic
+        
         this.addActionListener(e -> {
             if (model.rollDice()) {
                 rollremainLabel.setText("Roll remain: " + model.getRollRemaining());
 
-                // Update each die's icon if not held
+                
                 for (DiceGui diceGui : diceButtons) {
-                    diceGui.rollIfNotHeld();  // <- You'll define this method in DiceGui
+                    diceGui.rollIfNotHeld();  
                 }
 
             } else {

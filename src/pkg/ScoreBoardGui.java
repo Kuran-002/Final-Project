@@ -92,7 +92,7 @@ public class ScoreBoardGui extends JPanel {
                 sourceButton.setText(displayName + " (" + score + ")");
             } else {
                 JOptionPane.showMessageDialog(ScoreBoardGui.this,
-                        "This category has already been scored or an error occurred!",
+                        "This category has already been scored",
                         "Scoring Error",
                         JOptionPane.WARNING_MESSAGE);
             }

@@ -14,7 +14,7 @@ public class DiceGui extends JButton {
         super(text);
         this.dice = dice;
 
-        // Load and scale images
+      
         icons = new ImageIcon[6];
         icons[0] = new ImageIcon("Dice1.png");
         icons[1] = new ImageIcon("Dice2.png");
@@ -31,7 +31,7 @@ public class DiceGui extends JButton {
         updateIcon(dice.getValue());
         updateHoldStyle();
 
-        // Transparent button
+      
         this.setHorizontalTextPosition(SwingConstants.CENTER);
         this.setVerticalTextPosition(SwingConstants.CENTER);
         this.setBorderPainted(false);
@@ -39,7 +39,7 @@ public class DiceGui extends JButton {
         this.setFocusPainted(false);
         this.setOpaque(false);
 
-        // Toggle hold status on click
+    
         this.addActionListener(e -> {
             dice.toggleHold();
             updateHoldStyle();
@@ -65,7 +65,6 @@ public class DiceGui extends JButton {
         return dice;
     }
 
-    // ✅ NEW METHOD: Roll if not held
     public void rollIfNotHeld() {
         if (!dice.isHeld()) {
             dice.roll();
