@@ -1,353 +1,276 @@
 package pkg;
 
 public class ScoreBoard {
-    int ones = 0;
-    int twos = 0;
-    int threes = 0;
-    int fours = 0;
-    int fives = 0;
-    int sixes = 0;
-    int twoOfaKind = 0;
-    int threeOfaKind = 0;
-    int fourOfaKind = 0;
-    int fullHouse = 0;
-    int smallStraight = 0;
-    int largeStraight = 0;
-    int yahtzee = 0;
-    int chance = 0;
+    // Boolean flags
+    private boolean onesScored = false;
+    private boolean twosScored = false;
+    private boolean threesScored = false;
+    private boolean foursScored = false;
+    private boolean fivesScored = false;
+    private boolean sixesScored = false;
+    private boolean twoOfaKindScored = false;
+    private boolean threeOfaKindScored = false;
+    private boolean fourOfaKindScored = false;
+    private boolean fullHouseScored = false;
+    private boolean smallStraightScored = false;
+    private boolean largeStraightScored = false;
+    private boolean yahtzeeScored = false;
+    private boolean chanceScored = false;
 
-    // Added boolean flags to track if the section has been scored
-    boolean onesScored = false;
-    boolean twosScored = false;
-    boolean threesScored = false;
-    boolean foursScored = false;
-    boolean fivesScored = false;
-    boolean sixesScored = false;
-    boolean twoOfaKindScored = false;
-    boolean threeOfaKindScored = false;
-    boolean fourOfaKindScored = false;
-    boolean fullHouseScored = false;
-    boolean smallStraightScored = false;
-    boolean largeStraightScored = false;
-    boolean yahtzeeScored = false;
-    boolean chanceScored = false;
+    // Scores
+    private int onesScore = 0;
+    private int twosScore = 0;
+    private int threesScore = 0;
+    private int foursScore = 0;
+    private int fivesScore = 0;
+    private int sixesScore = 0;
+    private int twoOfaKindScore = 0;
+    private int threeOfaKindScore = 0;
+    private int fourOfaKindScore = 0;
+    private int fullHouseScore = 0;
+    private int smallStraightScore = 0;
+    private int largeStraightScore = 0;
+    private int yahtzeeScore = 0;
+    private int chanceScore = 0;
 
-    public ScoreBoard() {
-    }
-
-    public void resetBoard() {
-        ones = 0;
-        twos = 0;
-        threes = 0;
-        fours = 0;
-        fives = 0;
-        sixes = 0;
-        twoOfaKind = 0;
-        threeOfaKind = 0;
-        fourOfaKind = 0;
-        fullHouse = 0;
-        smallStraight = 0;
-        largeStraight = 0;
-        yahtzee = 0;
-        chance = 0;
-
-        // Reset the score flags
-        onesScored = false;
-        twosScored = false;
-        threesScored = false;
-        foursScored = false;
-        fivesScored = false;
-        sixesScored = false;
-        twoOfaKindScored = false;
-        threeOfaKindScored = false;
-        fourOfaKindScored = false;
-        fullHouseScored = false;
-        smallStraightScored = false;
-        largeStraightScored = false;
-        yahtzeeScored = false;
-        chanceScored = false;
-    }
-    public boolean isOnesScored() {
-        return onesScored;
-    }
-
-    public boolean isTwosScored() {
-        return twosScored;
-    }
-
-    public boolean isThreesScored() {
-        return threesScored;
-    }
-
-    public boolean isFoursScored() {
-        return foursScored;
-    }
-
-    public boolean isFivesScored() {
-        return fivesScored;
-    }
-
-    public boolean isSixesScored() {
-        return sixesScored;
-    }
-
-    public boolean isTwoOfaKindScored() {
-        return twoOfaKindScored;
-    }
-
-    public boolean isThreeOfaKindScored() {
-        return threeOfaKindScored;
-    }
-
-    public boolean isFourOfaKindScored() {
-        return fourOfaKindScored;
-    }
-
-    public boolean isFullHouseScored() {
-        return fullHouseScored;
-    }
-
-    public boolean isSmallStraightScored() {
-        return smallStraightScored;
-    }
-
-    public boolean isLargeStraightScored() {
-        return largeStraightScored;
-    }
-
-    public boolean isYahtzeeScored() {
-        return yahtzeeScored;
-    }
-
-    public boolean isChanceScored() {
-        return chanceScored;
-    }
-
-    // Scoring methods
-    public void calculateOnes(Dice[] dice) {
+    public boolean calculateOnes(Dice[] dice) {
         if (!onesScored) {
-            ones = 0;
-            for (int i = 0; i < dice.length; i++) {
-                if (dice[i].getValue() == 1) {
-                    ones += 1;
-                }
-            }
+            onesScore = calculateCategoryScore(dice, 1);
             onesScored = true;
+            return true;
         }
+        return false;
     }
 
-    public void calculateTwos(Dice[] dice) {
+    public boolean calculateTwos(Dice[] dice) {
         if (!twosScored) {
-            twos = 0;
-            for (int i = 0; i < dice.length; i++) {
-                if (dice[i].getValue() == 2) {
-                    twos += 2;
-                }
-            }
+            twosScore = calculateCategoryScore(dice, 2);
             twosScored = true;
+            return true;
         }
+        return false;
     }
 
-    public void calculateThrees(Dice[] dice) {
+    public boolean calculateThrees(Dice[] dice) {
         if (!threesScored) {
-            threes = 0;
-            for (int i = 0; i < dice.length; i++) {
-                if (dice[i].getValue() == 3) {
-                    threes += 3;
-                }
-            }
+            threesScore = calculateCategoryScore(dice, 3);
             threesScored = true;
+            return true;
         }
+        return false;
     }
 
-    public void calculateFours(Dice[] dice) {
+    public boolean calculateFours(Dice[] dice) {
         if (!foursScored) {
-            fours = 0;
-            for (int i = 0; i < dice.length; i++) {
-                if (dice[i].getValue() == 4) {
-                    fours += 4;
-                }
-            }
+            foursScore = calculateCategoryScore(dice, 4);
             foursScored = true;
+            return true;
         }
+        return false;
     }
 
-    public void calculateFives(Dice[] dice) {
+    public boolean calculateFives(Dice[] dice) {
         if (!fivesScored) {
-            fives = 0;
-            for (int i = 0; i < dice.length; i++) {
-                if (dice[i].getValue() == 5) {
-                    fives += 5;
-                }
-            }
+            fivesScore = calculateCategoryScore(dice, 5);
             fivesScored = true;
+            return true;
         }
+        return false;
     }
 
-    public void calculateSixes(Dice[] dice) {
+    public boolean calculateSixes(Dice[] dice) {
         if (!sixesScored) {
-            sixes = 0;
-            for (int i = 0; i < dice.length; i++) {
-                if (dice[i].getValue() == 6) {
-                    sixes += 6;
-                }
-            }
+            sixesScore = calculateCategoryScore(dice, 6);
             sixesScored = true;
+            return true;
         }
+        return false;
     }
 
-    public void calculateTwoOfaKind(Dice[] dice) {
+    public boolean calculateTwoOfaKind(Dice[] dice) {
         if (!twoOfaKindScored) {
-            int[] counts = new int[6];
-            for (int i = 0; i < dice.length; i++) {
-                counts[dice[i].getValue() - 1]++;
-            }
-            for (int i = 0; i < counts.length; i++) {
-                if (counts[i] >= 2) {
-                    int total = 0;
-                    for (int j = 0; j < dice.length; j++) {
-                        total += dice[j].getValue();
-                    }
-                    twoOfaKind = total;
-                    twoOfaKindScored = true;
-                    return;
-                }
-            }
+            twoOfaKindScore = hasOfAKind(dice, 2) ? sumAllDice(dice) : 0;
+            twoOfaKindScored = true;
+            return true;
         }
+        return false;
     }
 
-    public void calculateThreeOfaKind(Dice[] dice) {
+    public boolean calculateThreeOfaKind(Dice[] dice) {
         if (!threeOfaKindScored) {
-            int[] counts = new int[6];
-            for (int i = 0; i < dice.length; i++) {
-                counts[dice[i].getValue() - 1]++;
-            }
-            for (int i = 0; i < counts.length; i++) {
-                if (counts[i] >= 3) {
-                    int total = 0;
-                    for (int j = 0; j < dice.length; j++) {
-                        total += dice[j].getValue();
-                    }
-                    threeOfaKind = total;
-                    threeOfaKindScored = true;
-                    return;
-                }
-            }
+            threeOfaKindScore = hasOfAKind(dice, 3) ? sumAllDice(dice) : 0;
+            threeOfaKindScored = true;
+            return true;
         }
+        return false;
     }
 
-    public void calculateFourOfaKind(Dice[] dice) {
+    public boolean calculateFourOfaKind(Dice[] dice) {
         if (!fourOfaKindScored) {
-            int[] counts = new int[6];
-            for (int i = 0; i < dice.length; i++) {
-                counts[dice[i].getValue() - 1]++;
-            }
-            for (int i = 0; i < counts.length; i++) {
-                if (counts[i] >= 4) {
-                    int total = 0;
-                    for (int j = 0; j < dice.length; j++) {
-                        total += dice[j].getValue();
-                    }
-                    fourOfaKind = total;
-                    fourOfaKindScored = true;
-                    return;
-                }
-            }
+            fourOfaKindScore = hasOfAKind(dice, 4) ? sumAllDice(dice) : 0;
+            fourOfaKindScored = true;
+            return true;
         }
+        return false;
     }
 
-    public void calculateFullHouse(Dice[] dice) {
+    public boolean calculateFullHouse(Dice[] dice) {
         if (!fullHouseScored) {
-            int[] counts = new int[6];
-            for (int i = 0; i < dice.length; i++) {
-                counts[dice[i].getValue() - 1]++;
-            }
-            boolean hasThree = false;
-            boolean hasTwo = false;
-            for (int i = 0; i < counts.length; i++) {
-                if (counts[i] == 3) {
-                    hasThree = true;
-                }
-                if (counts[i] == 2) {
-                    hasTwo = true;
-                }
-            }
-            if (hasThree && hasTwo) {
-                fullHouse = 25;
-                fullHouseScored = true;
-            }
+            fullHouseScore = isFullHouse(dice) ? 25 : 0;
+            fullHouseScored = true;
+            return true;
         }
+        return false;
     }
 
-    public void calculateSmallStraight(Dice[] dice) {
+    public boolean calculateSmallStraight(Dice[] dice) {
         if (!smallStraightScored) {
-            boolean[] seen = new boolean[6];
-            for (int i = 0; i < dice.length; i++) {
-                seen[dice[i].getValue() - 1] = true;
-            }
-            if ((seen[0] && seen[1] && seen[2] && seen[3]) ||
-                (seen[1] && seen[2] && seen[3] && seen[4]) ||
-                (seen[2] && seen[3] && seen[4] && seen[5])) {
-                smallStraight = 30;
-                smallStraightScored = true;
-            }
+            smallStraightScore = hasStraight(dice, 4) ? 30 : 0;
+            smallStraightScored = true;
+            return true;
         }
+        return false;
     }
 
-    public void calculateLargeStraight(Dice[] dice) {
+    public boolean calculateLargeStraight(Dice[] dice) {
         if (!largeStraightScored) {
-            boolean[] seen = new boolean[6];
-            for (int i = 0; i < dice.length; i++) {
-                seen[dice[i].getValue() - 1] = true;
-            }
-            if ((seen[0] && seen[1] && seen[2] && seen[3] && seen[4]) ||
-                (seen[1] && seen[2] && seen[3] && seen[4] && seen[5])) {
-                largeStraight = 40;
-                largeStraightScored = true;
-            }
+            largeStraightScore = hasStraight(dice, 5) ? 40 : 0;
+            largeStraightScored = true;
+            return true;
         }
+        return false;
     }
 
-    public void calculateYahtzee(Dice[] dice) {
+    public boolean calculateYahtzee(Dice[] dice) {
         if (!yahtzeeScored) {
-            int value = dice[0].getValue();
-            for (int i = 0; i < dice.length; i++) {
-                if (dice[i].getValue() != value) {
-                    return;
-                }
-            }
-            yahtzee = 50;
+            yahtzeeScore = isYahtzee(dice) ? 50 : 0;
             yahtzeeScored = true;
+            return true;
         }
+        return false;
     }
 
-    public void calculateChance(Dice[] dice) {
+    public boolean calculateChance(Dice[] dice) {
         if (!chanceScored) {
-            chance = 0;
-            for (int i = 0; i < dice.length; i++) {
-                chance += dice[i].getValue();
-            }
+            chanceScore = sumAllDice(dice);
             chanceScored = true;
+            return true;
         }
+        return false;
     }
 
-    // Getters for scores
-    public int getOnes() { return ones; }
-    public int getTwos() { return twos; }
-    public int getThrees() { return threes; }
-    public int getFours() { return fours; }
-    public int getFives() { return fives; }
-    public int getSixes() { return sixes; }
-    public int getTwoOfaKind() { return twoOfaKind; }
-    public int getThreeOfaKind() { return threeOfaKind; }
-    public int getFourOfaKind() { return fourOfaKind; }
-    public int getFullHouse() { return fullHouse; }
-    public int getSmallStraight() { return smallStraight; }
-    public int getLargeStraight() { return largeStraight; }
-    public int getYahtzee() { return yahtzee; }
-    public int getChance() { return chance; }
+    private int calculateCategoryScore(Dice[] dice, int number) {
+        int score = 0;
+        for (Dice die : dice) {
+            if (die.getValue() == number) {
+                score += number;
+            }
+        }
+        return score;
+    }
+
+    private boolean hasOfAKind(Dice[] dice, int kind) {
+        int[] counts = new int[6];
+        for (Dice die : dice) {
+            counts[die.getValue() - 1]++;
+        }
+        for (int count : counts) {
+            if (count >= kind) return true;
+        }
+        return false;
+    }
+
+    private boolean isFullHouse(Dice[] dice) {
+        int[] counts = new int[6];
+        for (Dice die : dice) {
+            counts[die.getValue() - 1]++;
+        }
+        boolean hasThree = false;
+        boolean hasTwo = false;
+        for (int count : counts) {
+            if (count == 3) hasThree = true;
+            if (count == 2) hasTwo = true;
+        }
+        return hasThree && hasTwo;
+    }
+
+    private boolean hasStraight(Dice[] dice, int length) {
+        boolean[] seen = new boolean[6];
+        for (Dice die : dice) {
+            seen[die.getValue() - 1] = true;
+        }
+        int currentStreak = 0;
+        for (boolean present : seen) {
+            if (present) {
+                currentStreak++;
+                if (currentStreak >= length) return true;
+            } else {
+                currentStreak = 0;
+            }
+        }
+        return false;
+    }
+
+    private boolean isYahtzee(Dice[] dice) {
+        int value = dice[0].getValue();
+        for (Dice die : dice) {
+            if (die.getValue() != value) return false;
+        }
+        return true;
+    }
+
+    private int sumAllDice(Dice[] dice) {
+        int sum = 0;
+        for (Dice die : dice) {
+            sum += die.getValue();
+        }
+        return sum;
+    }
 
     public int getTotalScore() {
-        return ones + twos + threes + fours + fives + sixes + twoOfaKind + threeOfaKind + fourOfaKind + fullHouse + smallStraight + largeStraight + yahtzee + chance;
+        return onesScore + twosScore + threesScore + foursScore + fivesScore + sixesScore
+            + twoOfaKindScore + threeOfaKindScore + fourOfaKindScore + fullHouseScore
+            + smallStraightScore + largeStraightScore + yahtzeeScore + chanceScore;
     }
+
+    public boolean allCategoriesScored() {
+        return onesScored && twosScored && threesScored && foursScored && fivesScored && sixesScored
+            && twoOfaKindScored && threeOfaKindScored && fourOfaKindScored && fullHouseScored
+            && smallStraightScored && largeStraightScored && yahtzeeScored && chanceScored;
+    }
+
+    public int getCategoryScore(String category) {
+        switch (category.toLowerCase()) {
+            case "ones": return onesScore;
+            case "twos": return twosScore;
+            case "threes": return threesScore;
+            case "fours": return foursScore;
+            case "fives": return fivesScore;
+            case "sixes": return sixesScore;
+            case "twoofakind": return twoOfaKindScore;
+            case "threeofakind": return threeOfaKindScore;
+            case "fourofakind": return fourOfaKindScore;
+            case "fullhouse": return fullHouseScore;
+            case "smallstraight": return smallStraightScore;
+            case "largestraight": return largeStraightScore;
+            case "yahtzee": return yahtzeeScore;
+            case "chance": return chanceScore;
+            default: return 0;
+        }
+    }
+
+    public boolean isFullHouseScored() { return fullHouseScored; }
+    public boolean isOnesScored() { return onesScored; }
+    public boolean isTwosScored() { return twosScored; }
+    public boolean isThreesScored() { return threesScored; }
+    public boolean isFoursScored() { return foursScored; }
+    public boolean isFivesScored() { return fivesScored; }
+    public boolean isSixesScored() { return sixesScored; }
+    public boolean isTwoOfaKindScored() { return twoOfaKindScored; }
+    public boolean isThreeOfaKindScored() { return threeOfaKindScored; }
+    public boolean isFourOfaKindScored() { return fourOfaKindScored; }
+    public boolean isSmallStraightScored() { return smallStraightScored; }
+    public boolean isLargeStraightScored() { return largeStraightScored; }
+    public boolean isYahtzeeScored() { return yahtzeeScored; }
+    public boolean isChanceScored() { return chanceScored; }
 }

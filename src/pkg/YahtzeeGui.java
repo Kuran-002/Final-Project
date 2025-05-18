@@ -26,9 +26,15 @@ public class YahtzeeGui extends JFrame {
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
-        backgroundPanel.setLayout(null);
+        backgroundPanel.setLayout(null);  // Absolute layout for precise control
 
-        // Roll remain label (top-left)
+        // Scoreboard GUI (centered near top)
+        ScoreBoardGui scoreBoardGui = new ScoreBoardGui(model);
+        scoreBoardGui.setBackground(Color.BLACK);
+        scoreBoardGui.setPreferredSize(new Dimension(800, 600));  // Width x Height
+        backgroundPanel.add(scoreBoardGui);
+
+        // Roll remain label (bottom-left corner)
         rollremainLabel = new JLabel("Roll remain: " + model.getRollRemaining());
         rollremainLabel.setForeground(Color.WHITE);
         rollremainLabel.setFont(new Font("Arial", Font.BOLD, 24));
@@ -39,51 +45,54 @@ public class YahtzeeGui extends JFrame {
         JPanel dicePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         dicePanel.setOpaque(false);
 
-        // Add dice to the panel
+        Dice[] realDice = model.getDiceSet().getDiceArray();
         for (int i = 0; i < 5; i++) {
-            Dice dice = new Dice();
-            DiceGui diceGui = new DiceGui("", 64, 64, model, dice);
+            DiceGui diceGui = new DiceGui("", 64, 64, model, realDice[i]);
             diceGui.setOpaque(false);
             diceGui.setPreferredSize(new Dimension(64, 64));
-            diceGui.setMinimumSize(new Dimension(64, 64));
-            diceGui.setMaximumSize(new Dimension(64, 64));
             diceButtons.add(diceGui);
             dicePanel.add(diceGui);
         }
-     
+
         for (DiceGui diceGui : diceButtons) {
-            diceGui.updateIcon(diceGui.getDice().getValue());  
+            diceGui.updateIcon(diceGui.getDice().getValue());
         }
         backgroundPanel.add(dicePanel);
 
-        // Roll button
+        // Roll button (bottom-center)
         RollButton rollButton = new RollButton("Roll", 200, 50, model, rollremainLabel, diceButtons);
         backgroundPanel.add(rollButton);
 
         setContentPane(backgroundPanel);
         setVisible(true);
 
-        // Dynamically update the layout after everything is shown
+        // Layout positioning
         SwingUtilities.invokeLater(() -> {
             int width = getWidth();
             int height = getHeight();
 
-            rollremainLabel.setBounds(20, 20, 300, 40);
+            // Center scoreboard horizontally and position it 1/4 down from top
+            Dimension sbSize = scoreBoardGui.getPreferredSize();
+            int sbX = (width - sbSize.width) / 2;
+            int sbY = height / 6;
+            scoreBoardGui.setBounds(sbX, sbY, sbSize.width, sbSize.height);
 
+            // Roll remain label in bottom-left
+            rollremainLabel.setBounds(30, height - 80, 300, 40);
+
+            // Dice panel in bottom-center
             int diceCount = 5;
             int diceWidth = 64;
             int spacing = 20;
             int dicePanelWidth = (diceCount * diceWidth) + ((diceCount - 1) * spacing);
-            int dicePanelHeight = 100; // Increased height
-            dicePanel.setBounds((width - dicePanelWidth) / 2, height - 200, dicePanelWidth, dicePanelHeight);
+            int dicePanelHeight = 100;
+            dicePanel.setBounds((width - dicePanelWidth) / 2, height - 160, dicePanelWidth, dicePanelHeight);
 
+            // Roll button just above bottom-center
             int rollButtonWidth = 200;
             int rollButtonHeight = 50;
-            rollButton.setBounds((width - rollButtonWidth) / 2, height - 100, rollButtonWidth, rollButtonHeight);
+            rollButton.setBounds((width - rollButtonWidth) / 2, height - 80, rollButtonWidth, rollButtonHeight);
 
-            
-
-            // Revalidate and repaint the components to ensure everything is updated correctly
             backgroundPanel.revalidate();
             backgroundPanel.repaint();
         });
