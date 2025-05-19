@@ -7,10 +7,14 @@ public class YahtzeeGameLogic {
 
     private boolean hasRolledSinceScore = false;
 
+    // NEW: Lock holding dice toggle after scoring until first roll
+    private boolean holdLocked = true;
+
     public YahtzeeGameLogic() {
         diceSet = new DiceSet();
         scoreBoard = new ScoreBoard();
         hasRolledSinceScore = false;
+        holdLocked = true;  // locked at game start (no dice held)
     }
 
     public String getDiceState() {
@@ -26,12 +30,20 @@ public class YahtzeeGameLogic {
             diceSet.rollUnheld();
             rollRemaining--;
             hasRolledSinceScore = true;
+
+            // Unlock holding dice after first roll
+            holdLocked = false;
+
             return true;
         }
         return false;
     }
 
     public boolean holdDice(int diceIndex) {
+        if (holdLocked) {
+            // Holding is locked, do nothing
+            return false;
+        }
         if (diceIndex >= 0 && diceIndex < diceSet.getDiceArray().length) {
             diceSet.holdOneDice(diceIndex);
             return true;
@@ -78,6 +90,9 @@ public class YahtzeeGameLogic {
             rollRemaining = 3;
             diceSet.unholdAll();
             hasRolledSinceScore = false;
+
+            // Lock holding dice again after scoring
+            holdLocked = true;
 
             if (gameListener != null) {
                 gameListener.onRollRemainingReset(rollRemaining);
@@ -131,6 +146,7 @@ public class YahtzeeGameLogic {
         diceSet = new DiceSet();
         scoreBoard = new ScoreBoard();
         hasRolledSinceScore = false;
+        holdLocked = true;
 
         // Notify listener about reset to update GUI
         if (gameListener != null) {
@@ -140,6 +156,11 @@ public class YahtzeeGameLogic {
 
     public boolean canScoreNow() {
         return hasRolledSinceScore && rollRemaining >= 0;
+    }
+
+    // NEW: expose hold lock status for GUI to check
+    public boolean isHoldLocked() {
+        return holdLocked;
     }
 
     private GameListener gameListener;

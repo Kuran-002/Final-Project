@@ -14,7 +14,7 @@ public class DiceGui extends JButton {
         super(text);
         this.dice = dice;
 
-      
+        // Load images
         icons = new ImageIcon[6];
         icons[0] = new ImageIcon("Dice1.png");
         icons[1] = new ImageIcon("Dice2.png");
@@ -31,7 +31,6 @@ public class DiceGui extends JButton {
         updateIcon(dice.getValue());
         updateHoldStyle();
 
-      
         this.setHorizontalTextPosition(SwingConstants.CENTER);
         this.setVerticalTextPosition(SwingConstants.CENTER);
         this.setBorderPainted(false);
@@ -39,8 +38,12 @@ public class DiceGui extends JButton {
         this.setFocusPainted(false);
         this.setOpaque(false);
 
-    
+        // IMPORTANT: Only toggle hold if holding is NOT locked
         this.addActionListener(e -> {
+            if (model.isHoldLocked()) {
+                // Holding is locked, do nothing
+                return;
+            }
             dice.toggleHold();
             updateHoldStyle();
         });

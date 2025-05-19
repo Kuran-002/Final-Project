@@ -8,9 +8,10 @@ import java.util.List;
 public class YahtzeeGui extends JFrame {
     private YahtzeeGameLogic model;
     private JLabel rollremainLabel;
+    private List<DiceGui> diceButtons = new ArrayList<>();
 
     public YahtzeeGui(YahtzeeGameLogic gameModel) {
-        this.model = gameModel;   
+        this.model = gameModel;
         model.setGameListener(new YahtzeeGameLogic.GameListener() {
             @Override
             public void onRollRemainingReset(int newRolls) {
@@ -22,13 +23,36 @@ public class YahtzeeGui extends JFrame {
             @Override
             public void onGameOver(int finalScore) {
                 SwingUtilities.invokeLater(() -> {
-                    JOptionPane.showMessageDialog(YahtzeeGui.this,
-                        "Game Over! Your total score is: " + finalScore,
-                        "Game Over", JOptionPane.INFORMATION_MESSAGE);
+                   
+                    JPanel overlayPanel = new JPanel(new GridBagLayout());
+                    overlayPanel.setOpaque(false);
+                    overlayPanel.setBounds(0, 0, getWidth(), getHeight());
+
+                    GridBagConstraints gbc = new GridBagConstraints();
+                    gbc.insets = new Insets(10, 10, 10, 10);
+                    gbc.gridx = 0;
+                    gbc.gridy = 0;
+
+                    JLabel gameOverLabel = new JLabel("Game Over! Your total score is: " + finalScore);
+                    gameOverLabel.setFont(new Font("Arial", Font.BOLD, 36));
+                    gameOverLabel.setForeground(Color.RED);
+                    overlayPanel.add(gameOverLabel, gbc);
+
+                    gbc.gridy = 1;
+                    JButton playAgainButton = new JButton("Play Again");
+                    playAgainButton.setFont(new Font("Arial", Font.BOLD, 24));
+                    playAgainButton.addActionListener(e -> {
+                        dispose();
+                        SwingUtilities.invokeLater(() -> new YahtzeeGui(new YahtzeeGameLogic()));
+                    });
+                    overlayPanel.add(playAgainButton, gbc);
+
+                    getLayeredPane().add(overlayPanel, JLayeredPane.POPUP_LAYER);
+                    getContentPane().revalidate();
+                    getContentPane().repaint();
                 });
             }
         });
-       
 
         setTitle("Yahtzee Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,11 +68,11 @@ public class YahtzeeGui extends JFrame {
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
-        backgroundPanel.setLayout(null);  
+        backgroundPanel.setLayout(null);
 
-        ScoreBoardGui scoreBoardGui = new ScoreBoardGui(model);
+        ScoreBoardGui scoreBoardGui = new ScoreBoardGui(model, this);
         scoreBoardGui.setBackground(Color.BLACK);
-        scoreBoardGui.setPreferredSize(new Dimension(800, 600));  
+        scoreBoardGui.setPreferredSize(new Dimension(800, 600));
         backgroundPanel.add(scoreBoardGui);
 
         rollremainLabel = new JLabel("Roll remain: " + model.getRollRemaining());
@@ -56,7 +80,6 @@ public class YahtzeeGui extends JFrame {
         rollremainLabel.setFont(new Font("Arial", Font.BOLD, 24));
         backgroundPanel.add(rollremainLabel);
 
-        List<DiceGui> diceButtons = new ArrayList<>();
         JPanel dicePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         dicePanel.setOpaque(false);
 
@@ -105,6 +128,12 @@ public class YahtzeeGui extends JFrame {
             backgroundPanel.revalidate();
             backgroundPanel.repaint();
         });
+    }
+
+    public void refreshDiceHoldStyles() {
+        for (DiceGui diceGui : diceButtons) {
+            diceGui.updateHoldStyle();
+        }
     }
 
     public static void main(String[] args) {

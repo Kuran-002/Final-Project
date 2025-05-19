@@ -9,13 +9,15 @@ import java.util.Map;
 
 public class ScoreBoardGui extends JPanel {
     private YahtzeeGameLogic gameLogic;
+    private YahtzeeGui yahtzeeGui;
     private JLabel totalScoreLabel;
     private JPanel categoriesPanel;
 
     private final Map<String, String> categoryMap = new LinkedHashMap<>();
 
-    public ScoreBoardGui(YahtzeeGameLogic gameLogic) {
+    public ScoreBoardGui(YahtzeeGameLogic gameLogic, YahtzeeGui yahtzeeGui) {
         this.gameLogic = gameLogic;
+        this.yahtzeeGui = yahtzeeGui;
         setLayout(new BorderLayout());
         setBackground(Color.DARK_GRAY);
 
@@ -88,8 +90,10 @@ public class ScoreBoardGui extends JPanel {
                 sourceButton.setEnabled(false);
 
                 int score = gameLogic.getScoreBoard().getCategoryScore(categoryKey);
-
                 sourceButton.setText(displayName + " (" + score + ")");
+
+                // 🔴 Reset dice holds (remove red border and unhold dice)
+                yahtzeeGui.refreshDiceHoldStyles();
             } else {
                 JOptionPane.showMessageDialog(ScoreBoardGui.this,
                         "This category has already been scored",
