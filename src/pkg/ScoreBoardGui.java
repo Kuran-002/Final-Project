@@ -91,12 +91,12 @@ public class ScoreBoardGui extends JPanel {
 
                 int score = gameLogic.getScoreBoard().getCategoryScore(categoryKey);
                 sourceButton.setText(displayName + " (" + score + ")");
-
-                // 🔴 Reset dice holds (remove red border and unhold dice)
                 yahtzeeGui.refreshDiceHoldStyles();
+                
             } else {
                 JOptionPane.showMessageDialog(ScoreBoardGui.this,
                         "This category has already been scored",
+                        
                         "Scoring Error",
                         JOptionPane.WARNING_MESSAGE);
             }
