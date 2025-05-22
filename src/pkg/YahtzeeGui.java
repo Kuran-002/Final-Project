@@ -23,7 +23,6 @@ public class YahtzeeGui extends JFrame {
             @Override
             public void onGameOver(int finalScore) {
                 SwingUtilities.invokeLater(() -> {
-                   
                     JPanel overlayPanel = new JPanel(new GridBagLayout());
                     overlayPanel.setOpaque(false);
                     overlayPanel.setBounds(0, 0, getWidth(), getHeight());
@@ -72,7 +71,6 @@ public class YahtzeeGui extends JFrame {
 
         ScoreBoardGui scoreBoardGui = new ScoreBoardGui(model, this);
         scoreBoardGui.setBackground(Color.BLACK);
-        scoreBoardGui.setPreferredSize(new Dimension(800, 600));
         backgroundPanel.add(scoreBoardGui);
 
         rollremainLabel = new JLabel("Roll remain: " + model.getRollRemaining());
@@ -107,10 +105,12 @@ public class YahtzeeGui extends JFrame {
             int width = getWidth();
             int height = getHeight();
 
-            Dimension sbSize = scoreBoardGui.getPreferredSize();
-            int sbX = (width - sbSize.width) / 2;
+            // Dynamically sized scoreboard
+            int sbWidth = (int) (width * 0.6);
+            int sbHeight = (int) (height * 0.5);
+            int sbX = (width - sbWidth) / 2;
             int sbY = height / 6;
-            scoreBoardGui.setBounds(sbX, sbY, sbSize.width, sbSize.height);
+            scoreBoardGui.setBounds(sbX, sbY, sbWidth, sbHeight);
 
             rollremainLabel.setBounds(30, height - 80, 300, 40);
 
