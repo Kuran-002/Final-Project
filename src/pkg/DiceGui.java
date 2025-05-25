@@ -10,6 +10,17 @@ public class DiceGui extends JButton {
     private ImageIcon[] icons;
     private Dice dice;
 
+    /**
+     * Constructs a DiceGui button representing a dice with graphical icons.
+     * It sets up the icons, initial dice value, and hold style.
+     * Adds an ActionListener to toggle hold state if holding is not locked in the game model.
+     * 
+     * @param text the text to display on the button (often unused due to icon)
+     * @param width desired icon width in pixels
+     * @param height desired icon height in pixels
+     * @param model the YahtzeeGameLogic model, used to check if hold is locked
+     * @param dice the Dice object this button represents and controls
+     */
     public DiceGui(String text, int width, int height, YahtzeeGameLogic model, Dice dice) {
         super(text);
         this.dice = dice;
@@ -38,10 +49,9 @@ public class DiceGui extends JButton {
         this.setFocusPainted(false);
         this.setOpaque(false);
 
-        // IMPORTANT: Only toggle hold if holding is NOT locked
+        // Toggle hold on click only if hold is not locked in the model
         this.addActionListener(e -> {
             if (model.isHoldLocked()) {
-                // Holding is locked, do nothing
                 return;
             }
             dice.toggleHold();
@@ -49,12 +59,21 @@ public class DiceGui extends JButton {
         });
     }
 
+    /**
+     * Updates the button icon to reflect the dice's current value.
+     * 
+     * @param value the dice value (1-6) to update the icon for
+     */
     public void updateIcon(int value) {
         if (value >= 1 && value <= 6) {
             this.setIcon(icons[value - 1]);
         }
     }
 
+    /**
+     * Updates the button border style to indicate whether the dice is held or not.
+     * Held dice get a red border; otherwise, no border is painted.
+     */
     public void updateHoldStyle() {
         if (dice.isHeld()) {
             this.setBorderPainted(true);
@@ -64,10 +83,18 @@ public class DiceGui extends JButton {
         }
     }
 
+    /**
+     * Returns the Dice object associated with this DiceGui button.
+     * 
+     * @return the Dice instance this button controls
+     */
     public Dice getDice() {
         return dice;
     }
 
+    /**
+     * Rolls the dice and updates the icon only if the dice is not currently held.
+     */
     public void rollIfNotHeld() {
         if (!dice.isHeld()) {
             dice.roll();

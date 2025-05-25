@@ -1,7 +1,11 @@
 package pkg;
 
+/**
+ * This class manages the scoring state for a Yahtzee game.
+ * It keeps track of which categories have been scored and the score values for each category.
+ */
 public class ScoreBoard {
-    // Boolean flags
+    // Boolean flags indicating if each category has been scored
     private boolean onesScored = false;
     private boolean twosScored = false;
     private boolean threesScored = false;
@@ -17,7 +21,7 @@ public class ScoreBoard {
     private boolean yahtzeeScored = false;
     private boolean chanceScored = false;
 
-    // Scores
+    // Scores for each category
     private int onesScore = 0;
     private int twosScore = 0;
     private int threesScore = 0;
@@ -33,6 +37,12 @@ public class ScoreBoard {
     private int yahtzeeScore = 0;
     private int chanceScore = 0;
 
+    /**
+     * Calculates and sets the score for the Ones category if not already scored.
+     *
+     * @param dice the array of Dice objects representing the current roll
+     * @return true if the score was successfully calculated and set; false if already scored
+     */
     public boolean calculateOnes(Dice[] dice) {
         if (!onesScored) {
             onesScore = calculateCategoryScore(dice, 1);
@@ -42,6 +52,12 @@ public class ScoreBoard {
         return false;
     }
 
+    /**
+     * Calculates and sets the score for the Twos category if not already scored.
+     *
+     * @param dice the array of Dice objects representing the current roll
+     * @return true if the score was successfully calculated and set; false if already scored
+     */
     public boolean calculateTwos(Dice[] dice) {
         if (!twosScored) {
             twosScore = calculateCategoryScore(dice, 2);
@@ -51,6 +67,12 @@ public class ScoreBoard {
         return false;
     }
 
+    /**
+     * Calculates and sets the score for the Threes category if not already scored.
+     *
+     * @param dice the array of Dice objects representing the current roll
+     * @return true if the score was successfully calculated and set; false if already scored
+     */
     public boolean calculateThrees(Dice[] dice) {
         if (!threesScored) {
             threesScore = calculateCategoryScore(dice, 3);
@@ -60,6 +82,12 @@ public class ScoreBoard {
         return false;
     }
 
+    /**
+     * Calculates and sets the score for the Fours category if not already scored.
+     *
+     * @param dice the array of Dice objects representing the current roll
+     * @return true if the score was successfully calculated and set; false if already scored
+     */
     public boolean calculateFours(Dice[] dice) {
         if (!foursScored) {
             foursScore = calculateCategoryScore(dice, 4);
@@ -69,6 +97,12 @@ public class ScoreBoard {
         return false;
     }
 
+    /**
+     * Calculates and sets the score for the Fives category if not already scored.
+     *
+     * @param dice the array of Dice objects representing the current roll
+     * @return true if the score was successfully calculated and set; false if already scored
+     */
     public boolean calculateFives(Dice[] dice) {
         if (!fivesScored) {
             fivesScore = calculateCategoryScore(dice, 5);
@@ -78,6 +112,12 @@ public class ScoreBoard {
         return false;
     }
 
+    /**
+     * Calculates and sets the score for the Sixes category if not already scored.
+     *
+     * @param dice the array of Dice objects representing the current roll
+     * @return true if the score was successfully calculated and set; false if already scored
+     */
     public boolean calculateSixes(Dice[] dice) {
         if (!sixesScored) {
             sixesScore = calculateCategoryScore(dice, 6);
@@ -87,6 +127,12 @@ public class ScoreBoard {
         return false;
     }
 
+    /**
+     * Calculates and sets the score for the Two of a Kind category if not already scored.
+     *
+     * @param dice the array of Dice objects representing the current roll
+     * @return true if the score was successfully calculated and set; false if already scored
+     */
     public boolean calculateTwoOfaKind(Dice[] dice) {
         if (!twoOfaKindScored) {
             twoOfaKindScore = hasOfAKind(dice, 2) ? sumAllDice(dice) : 0;
@@ -96,6 +142,12 @@ public class ScoreBoard {
         return false;
     }
 
+    /**
+     * Calculates and sets the score for the Three of a Kind category if not already scored.
+     *
+     * @param dice the array of Dice objects representing the current roll
+     * @return true if the score was successfully calculated and set; false if already scored
+     */
     public boolean calculateThreeOfaKind(Dice[] dice) {
         if (!threeOfaKindScored) {
             threeOfaKindScore = hasOfAKind(dice, 3) ? sumAllDice(dice) : 0;
@@ -105,6 +157,12 @@ public class ScoreBoard {
         return false;
     }
 
+    /**
+     * Calculates and sets the score for the Four of a Kind category if not already scored.
+     *
+     * @param dice the array of Dice objects representing the current roll
+     * @return true if the score was successfully calculated and set; false if already scored
+     */
     public boolean calculateFourOfaKind(Dice[] dice) {
         if (!fourOfaKindScored) {
             fourOfaKindScore = hasOfAKind(dice, 4) ? sumAllDice(dice) : 0;
@@ -114,6 +172,12 @@ public class ScoreBoard {
         return false;
     }
 
+    /**
+     * Calculates and sets the score for the Full House category if not already scored.
+     *
+     * @param dice the array of Dice objects representing the current roll
+     * @return true if the score was successfully calculated and set; false if already scored
+     */
     public boolean calculateFullHouse(Dice[] dice) {
         if (!fullHouseScored) {
             fullHouseScore = isFullHouse(dice) ? 25 : 0;
@@ -123,6 +187,12 @@ public class ScoreBoard {
         return false;
     }
 
+    /**
+     * Calculates and sets the score for the Small Straight category if not already scored.
+     *
+     * @param dice the array of Dice objects representing the current roll
+     * @return true if the score was successfully calculated and set; false if already scored
+     */
     public boolean calculateSmallStraight(Dice[] dice) {
         if (!smallStraightScored) {
             smallStraightScore = hasStraight(dice, 4) ? 30 : 0;
@@ -132,6 +202,12 @@ public class ScoreBoard {
         return false;
     }
 
+    /**
+     * Calculates and sets the score for the Large Straight category if not already scored.
+     *
+     * @param dice the array of Dice objects representing the current roll
+     * @return true if the score was successfully calculated and set; false if already scored
+     */
     public boolean calculateLargeStraight(Dice[] dice) {
         if (!largeStraightScored) {
             largeStraightScore = hasStraight(dice, 5) ? 40 : 0;
@@ -141,6 +217,12 @@ public class ScoreBoard {
         return false;
     }
 
+    /**
+     * Calculates and sets the score for the Yahtzee category if not already scored.
+     *
+     * @param dice the array of Dice objects representing the current roll
+     * @return true if the score was successfully calculated and set; false if already scored
+     */
     public boolean calculateYahtzee(Dice[] dice) {
         if (!yahtzeeScored) {
             yahtzeeScore = isYahtzee(dice) ? 50 : 0;
@@ -150,6 +232,12 @@ public class ScoreBoard {
         return false;
     }
 
+    /**
+     * Calculates and sets the score for the Chance category if not already scored.
+     *
+     * @param dice the array of Dice objects representing the current roll
+     * @return true if the score was successfully calculated and set; false if already scored
+     */
     public boolean calculateChance(Dice[] dice) {
         if (!chanceScored) {
             chanceScore = sumAllDice(dice);
@@ -159,6 +247,13 @@ public class ScoreBoard {
         return false;
     }
 
+    /**
+     * Helper method to calculate score for categories based on matching dice values.
+     *
+     * @param dice the array of Dice objects
+     * @param number the dice value to count (1 to 6)
+     * @return the sum of dice matching the given number
+     */
     private int calculateCategoryScore(Dice[] dice, int number) {
         int score = 0;
         for (Dice die : dice) {
@@ -169,6 +264,13 @@ public class ScoreBoard {
         return score;
     }
 
+    /**
+     * Checks if the dice contain at least the specified number of identical dice.
+     *
+     * @param dice the array of Dice objects
+     * @param kind the number of identical dice required
+     * @return true if the condition is met; false otherwise
+     */
     private boolean hasOfAKind(Dice[] dice, int kind) {
         int[] counts = new int[6];
         for (Dice die : dice) {
@@ -180,6 +282,12 @@ public class ScoreBoard {
         return false;
     }
 
+    /**
+     * Checks if the dice form a full house (3 of a kind + 2 of a kind).
+     *
+     * @param dice the array of Dice objects
+     * @return true if the dice form a full house; false otherwise
+     */
     private boolean isFullHouse(Dice[] dice) {
         int[] counts = new int[6];
         for (Dice die : dice) {
@@ -194,6 +302,13 @@ public class ScoreBoard {
         return hasThree && hasTwo;
     }
 
+    /**
+     * Checks if the dice contain a straight of the specified length.
+     *
+     * @param dice the array of Dice objects
+     * @param length the length of the straight (e.g., 4 for small straight, 5 for large straight)
+     * @return true if the dice contain a straight of the given length; false otherwise
+     */
     private boolean hasStraight(Dice[] dice, int length) {
         boolean[] seen = new boolean[6];
         for (Dice die : dice) {
@@ -211,6 +326,12 @@ public class ScoreBoard {
         return false;
     }
 
+    /**
+     * Checks if the dice are all the same value (Yahtzee).
+     *
+     * @param dice the array of Dice objects
+     * @return true if all dice have the same value; false otherwise
+     */
     private boolean isYahtzee(Dice[] dice) {
         int value = dice[0].getValue();
         for (Dice die : dice) {
@@ -219,6 +340,12 @@ public class ScoreBoard {
         return true;
     }
 
+    /**
+     * Calculates the sum of all dice values.
+     *
+     * @param dice the array of Dice objects
+     * @return the total sum of all dice values
+     */
     private int sumAllDice(Dice[] dice) {
         int sum = 0;
         for (Dice die : dice) {
@@ -227,18 +354,34 @@ public class ScoreBoard {
         return sum;
     }
 
+    /**
+     * Gets the total score across all scored categories.
+     *
+     * @return the total score
+     */
     public int getTotalScore() {
         return onesScore + twosScore + threesScore + foursScore + fivesScore + sixesScore
             + twoOfaKindScore + threeOfaKindScore + fourOfaKindScore + fullHouseScore
             + smallStraightScore + largeStraightScore + yahtzeeScore + chanceScore;
     }
 
+    /**
+     * Checks if all categories have been scored.
+     *
+     * @return true if all categories have been scored; false otherwise
+     */
     public boolean allCategoriesScored() {
         return onesScored && twosScored && threesScored && foursScored && fivesScored && sixesScored
             && twoOfaKindScored && threeOfaKindScored && fourOfaKindScored && fullHouseScored
             && smallStraightScored && largeStraightScored && yahtzeeScored && chanceScored;
     }
 
+    /**
+     * Returns the score for a given category by name.
+     *
+     * @param category the category name (case-insensitive)
+     * @return the score for the category, or 0 if the category name is invalid
+     */
     public int getCategoryScore(String category) {
         switch (category.toLowerCase()) {
             case "ones": return onesScore;
@@ -259,18 +402,62 @@ public class ScoreBoard {
         }
     }
 
-    public boolean isFullHouseScored() { return fullHouseScored; }
-    public boolean isOnesScored() { return onesScored; }
-    public boolean isTwosScored() { return twosScored; }
-    public boolean isThreesScored() { return threesScored; }
-    public boolean isFoursScored() { return foursScored; }
-    public boolean isFivesScored() { return fivesScored; }
-    public boolean isSixesScored() { return sixesScored; }
-    public boolean isTwoOfaKindScored() { return twoOfaKindScored; }
-    public boolean isThreeOfaKindScored() { return threeOfaKindScored; }
-    public boolean isFourOfaKindScored() { return fourOfaKindScored; }
-    public boolean isSmallStraightScored() { return smallStraightScored; }
-    public boolean isLargeStraightScored() { return largeStraightScored; }
-    public boolean isYahtzeeScored() { return yahtzeeScored; }
-    public boolean isChanceScored() { return chanceScored; }
+    // Individual getters to check if a category has been scored
+
+    /** @return true if the Full House category has been scored */
+    public boolean isFullHouseScored() { 
+    	return fullHouseScored; 
+    	}
+    /** @return true if the Ones category has been scored */
+    public boolean isOnesScored() { 
+    	return onesScored; 
+    	}
+    /** @return true if the Twos category has been scored */
+    public boolean isTwosScored() { 
+    	return twosScored; 
+    	}
+    /** @return true if the Threes category has been scored */
+    public boolean isThreesScored() { 
+    	return threesScored; 
+    	}
+    /** @return true if the Fours category has been scored */
+    public boolean isFoursScored() { 
+    	return foursScored; 
+    	}
+    /** @return true if the Fives category has been scored */
+    public boolean isFivesScored() { 
+    	return fivesScored; 
+    	}
+    /** @return true if the Sixes category has been scored */
+    public boolean isSixesScored() { 
+    	return sixesScored; 
+    	}
+    /** @return true if the Two of a Kind category has been scored */
+    public boolean isTwoOfaKindScored() { 
+    	return twoOfaKindScored; 
+    	}
+    /** @return true if the Three of a Kind category has been scored */
+    public boolean isThreeOfaKindScored() { 
+    	return threeOfaKindScored; 
+    	}
+    /** @return true if the Four of a Kind category has been scored */
+    public boolean isFourOfaKindScored() { 
+    	return fourOfaKindScored; 
+    	}
+    /** @return true if the Small Straight category has been scored */
+    public boolean isSmallStraightScored() { 
+    	return smallStraightScored; 
+    	}
+    /** @return true if the Large Straight category has been scored */
+    public boolean isLargeStraightScored() { 
+    	return largeStraightScored; 
+    	}
+    /** @return true if the Yahtzee category has been scored */
+    public boolean isYahtzeeScored() { 
+    	return yahtzeeScored; 
+    	}
+    /** @return true if the Chance category has been scored */
+    public boolean isChanceScored() { 
+    	return chanceScored; 
+    	}
 }

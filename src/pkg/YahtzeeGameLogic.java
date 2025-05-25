@@ -1,5 +1,8 @@
 package pkg;
 
+/**
+ * Contains the logic for a game of Yahtzee, including dice rolling, holding, and scoring.
+ */
 public class YahtzeeGameLogic {
     private int rollRemaining = 3;
     private DiceSet diceSet;
@@ -9,6 +12,9 @@ public class YahtzeeGameLogic {
 
     private boolean holdLocked = true;
 
+    /**
+     * Constructs a new Yahtzee game logic instance with default settings.
+     */
     public YahtzeeGameLogic() {
         diceSet = new DiceSet();
         scoreBoard = new ScoreBoard();
@@ -16,30 +22,49 @@ public class YahtzeeGameLogic {
         holdLocked = true;
     }
 
+    /**
+     * Gets the current dice state as a string.
+     *
+     * @return the string representation of the current dice values.
+     */
     public String getDiceState() {
         return diceSet.toString();
     }
 
+    /**
+     * Gets the number of rolls remaining in the current turn.
+     *
+     * @return the number of rolls left (0 to 3).
+     */
     public int getRollRemaining() {
         return rollRemaining;
     }
 
+    /**
+     * Rolls all dice that are not currently held, if rolls remain.
+     *
+     * @return true if the dice were rolled successfully; false if no rolls remain.
+     */
     public boolean rollDice() {
         if (rollRemaining > 0) {
             diceSet.rollUnheld();
             rollRemaining--;
             hasRolledSinceScore = true;
-
             holdLocked = false;
-
             return true;
         }
         return false;
     }
 
+    /**
+     * Holds or unholds a single die specified by its index.
+     * Holding is locked before the first roll of a turn.
+     *
+     * @param diceIndex the zero-based index of the die to hold or unhold.
+     * @return true if the hold status was successfully toggled; false if invalid index or hold locked.
+     */
     public boolean holdDice(int diceIndex) {
         if (holdLocked) {
-           
             return false;
         }
         if (diceIndex >= 0 && diceIndex < diceSet.getDiceArray().length) {
@@ -49,10 +74,20 @@ public class YahtzeeGameLogic {
         return false;
     }
 
+    /**
+     * Unholds all dice (sets all dice as not held).
+     */
     public void unholdAllDice() {
         diceSet.unholdAll();
     }
 
+    /**
+     * Scores the dice for the specified category if scoring is allowed and category not already scored.
+     * Resets roll count and unlocks holding for the next turn if scoring succeeds.
+     *
+     * @param category the name of the scoring category (case insensitive).
+     * @return true if scoring was successful; false if category invalid, already scored, or scoring not allowed.
+     */
     public boolean scoreCategory(String category) {
         if (category == null) return false;
 
@@ -88,7 +123,6 @@ public class YahtzeeGameLogic {
             rollRemaining = 3;
             diceSet.unholdAll();
             hasRolledSinceScore = false;
-
             holdLocked = true;
 
             if (gameListener != null) {
@@ -102,6 +136,12 @@ public class YahtzeeGameLogic {
         return success;
     }
 
+    /**
+     * Checks if the specified category has already been scored.
+     *
+     * @param category the category name (case insensitive).
+     * @return true if the category is already scored; false otherwise.
+     */
     private boolean isCategoryScored(String category) {
         switch (category) {
             case "ones":          return scoreBoard.isOnesScored();
@@ -122,22 +162,45 @@ public class YahtzeeGameLogic {
         }
     }
 
+    /**
+     * Gets the total score across all categories.
+     *
+     * @return the sum of all scored category points.
+     */
     public int getTotalScore() {
         return scoreBoard.getTotalScore();
     }
 
+    /**
+     * Checks if the game is over, meaning all categories have been scored.
+     *
+     * @return true if the game is complete; false otherwise.
+     */
     public boolean isGameOver() {
         return scoreBoard.allCategoriesScored();
     }
 
+    /**
+     * Gets the current DiceSet object.
+     *
+     * @return the DiceSet representing the dice in play.
+     */
     public DiceSet getDiceSet() {
         return diceSet;
     }
 
+    /**
+     * Gets the ScoreBoard object that manages scoring.
+     *
+     * @return the ScoreBoard instance.
+     */
     public ScoreBoard getScoreBoard() {
         return scoreBoard;
     }
 
+    /**
+     * Resets the game state for a new game, including dice, scores, rolls, and locks.
+     */
     public void resetGame() {
         rollRemaining = 3;
         diceSet = new DiceSet();
@@ -145,29 +208,56 @@ public class YahtzeeGameLogic {
         hasRolledSinceScore = false;
         holdLocked = true;
 
-        
         if (gameListener != null) {
             gameListener.onRollRemainingReset(rollRemaining);
         }
     }
 
+    /**
+     * Checks if scoring is currently allowed, which requires having rolled and rolls left >= 0.
+     *
+     * @return true if scoring can be done now; false otherwise.
+     */
     public boolean canScoreNow() {
         return hasRolledSinceScore && rollRemaining >= 0;
     }
 
-    // NEW: expose hold lock status for GUI to check
+    /**
+     * Indicates whether the hold feature is currently locked (disallowed).
+     *
+     * @return true if holds are locked; false if holds can be toggled.
+     */
     public boolean isHoldLocked() {
         return holdLocked;
     }
 
     private GameListener gameListener;
 
+    /**
+     * Sets a listener to receive game state events such as roll reset and game over.
+     *
+     * @param listener the GameListener to notify.
+     */
     public void setGameListener(GameListener listener) {
         this.gameListener = listener;
     }
 
+    /**
+     * Interface to listen for game events.
+     */
     public interface GameListener {
+        /**
+         * Called when the number of rolls remaining is reset.
+         *
+         * @param newRolls the new number of rolls available.
+         */
         void onRollRemainingReset(int newRolls);
+
+        /**
+         * Called when the game is over.
+         *
+         * @param finalScore the final total score.
+         */
         void onGameOver(int finalScore);
     }
 }
