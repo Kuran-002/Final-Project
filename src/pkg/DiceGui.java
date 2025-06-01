@@ -37,12 +37,12 @@ public class DiceGui extends JButton {
 
         // Load images
         icons = new ImageIcon[6];
-        icons[0] = new ImageIcon("Dice1.png");
-        icons[1] = new ImageIcon("Dice2.png");
-        icons[2] = new ImageIcon("Dice3.png");
-        icons[3] = new ImageIcon("Dice4.png");
-        icons[4] = new ImageIcon("Dice5.png");
-        icons[5] = new ImageIcon("Dice6.png");
+        icons[0] = new ImageIcon("Sprites/Dice1.png");
+        icons[1] = new ImageIcon("Sprites/Dice2.png");
+        icons[2] = new ImageIcon("Sprites/Dice3.png");
+        icons[3] = new ImageIcon("Sprites/Dice4.png");
+        icons[4] = new ImageIcon("Sprites/Dice5.png");
+        icons[5] = new ImageIcon("Sprites/Dice6.png");
 
         for (int i = 0; i < icons.length; i++) {
             Image img = icons[i].getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);

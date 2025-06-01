@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.io.IOException;
+
 /**
  * Lead Author(s):
  * @author Khanh Bao Luong
@@ -32,11 +34,11 @@ public class ScoreBoardGui extends JPanel {
     private final Map<String, String> categoryMap = new LinkedHashMap<>();
 
     /**
-     * Scales an image icon from the given path to the specified width and height.
-     * @param path the path to the image file
-     * @param width the target width
-     * @param height the target height
-     * @return a scaled ImageIcon
+     * Scales an image icon from the given file path to the specified width and height.
+     * @param path the image file path
+     * @param width desired width
+     * @param height desired height
+     * @return scaled ImageIcon
      */
     private ImageIcon scaleIcon(String path, int width, int height) {
         ImageIcon icon = new ImageIcon(path);
@@ -45,10 +47,10 @@ public class ScoreBoardGui extends JPanel {
     }
 
     /**
-     * Constructs the ScoreBoardGui panel with the given game logic and main GUI references.
-     * Sets up the layout, background, category buttons, and total score panel.
+     * Constructs the ScoreBoardGui with game logic and main GUI references.
+     * Sets layout, background, category buttons, and total score panel.
      * @param gameLogic the Yahtzee game logic instance
-     * @param yahtzeeGui the main Yahtzee GUI instance for refreshing UI elements
+     * @param yahtzeeGui the main Yahtzee GUI instance
      */
     public ScoreBoardGui(YahtzeeGameLogic gameLogic, YahtzeeGui yahtzeeGui) {
         this.gameLogic = gameLogic;
@@ -78,7 +80,7 @@ public class ScoreBoardGui extends JPanel {
     }
 
     /**
-     * Sets up the mapping from category display names to internal category keys.
+     * Sets up the mapping between category display names and internal keys.
      */
     private void setupCategoryMap() {
         categoryMap.put("Ones", "ones");
@@ -98,7 +100,7 @@ public class ScoreBoardGui extends JPanel {
     }
 
     /**
-     * Initializes the category buttons with icons and adds them to the categories panel.
+     * Initializes the category buttons with custom icons and adds them to the panel.
      */
     private void initializeCategories() {
         ImageIcon normalIcon = scaleIcon("Sprites/NormalScore.png", 300, 40);
@@ -125,12 +127,10 @@ public class ScoreBoardGui extends JPanel {
     }
 
     /**
-     * Creates the total score panel with spacing but without visible total score text.
-     * @return the JPanel containing an invisible placeholder label for spacing
+     * Creates and returns a JPanel containing the total score label.
+     * @return JPanel with total score label
      */
     private JPanel createTotalScorePanel() {
-        
-
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
         panel.setOpaque(false);
@@ -143,25 +143,24 @@ public class ScoreBoardGui extends JPanel {
     }
 
     /**
-     * ActionListener for category buttons. Handles scoring and updates UI accordingly.
+     * Inner class that handles button click events for scoring categories.
      */
     private class CategoryButtonListener implements ActionListener {
         private final String displayName;
 
         /**
-         * Constructs the listener for a specific category button.
-         * @param displayName the display name of the category
+         * Constructs the listener for the specified category display name.
+         * @param displayName category display name
          */
         public CategoryButtonListener(String displayName) {
             this.displayName = displayName;
         }
 
         /**
-         * Called when the category button is pressed.
-         * disables the button, updates its text with the scored value,
-         * and refreshes dice hold styles in the main GUI.
-         * Shows a warning if category was already scored.
-         * @param e the ActionEvent triggered by button press
+         * Invoked when a category button is clicked.
+         * Attempts to score the category, disables button on success,
+         * updates UI, saves final score if game over.
+         * @param e the event triggered by button press
          */
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -169,17 +168,28 @@ public class ScoreBoardGui extends JPanel {
             boolean success = gameLogic.scoreCategory(categoryKey);
 
             if (success) {
-               
-
                 JButton sourceButton = (JButton) e.getSource();
                 sourceButton.setEnabled(false);
 
                 int score = gameLogic.getScoreBoard().getCategoryScore(categoryKey);
                 sourceButton.setText(displayName + " (" + score + ")");
                 yahtzeeGui.refreshDiceHoldStyles();
+                if (gameLogic.getScoreBoard().allCategoriesScored()) {
+                    int totalScore = gameLogic.getScoreBoard().getTotalScore();
+
+                    try {
+                        ScoreFileWriter.writeFinalScore("Player1", totalScore);
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(ScoreBoardGui.this,
+                                "Failed to save score: " + ex.getMessage(),
+                                "File Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
             } else {
                 JOptionPane.showMessageDialog(ScoreBoardGui.this,
-                        "PLease ROLL to score",
+                        "Please ROLL to score",
                         "Scoring Error",
                         JOptionPane.WARNING_MESSAGE);
             }
@@ -187,8 +197,8 @@ public class ScoreBoardGui extends JPanel {
     }
 
     /**
-     * Paints the background image scaled to the panel size.
-     * @param g the Graphics object for painting
+     * Paints the background image scaled to the size of this panel.
+     * @param g the Graphics context to paint on
      */
     @Override
     protected void paintComponent(Graphics g) {
@@ -199,14 +209,14 @@ public class ScoreBoardGui extends JPanel {
     }
 
     /**
-     * A JPanel subclass that paints a given image as its background.
+     * A JPanel subclass that paints a background image scaled to its size.
      */
     private static class BackgroundPanel extends JPanel {
         private final Image image;
 
         /**
          * Constructs a BackgroundPanel with the specified background image.
-         * @param image the Image to paint as background
+         * @param image the background image to paint
          */
         public BackgroundPanel(Image image) {
             this.image = image;
@@ -215,7 +225,7 @@ public class ScoreBoardGui extends JPanel {
 
         /**
          * Paints the background image scaled to the panel size.
-         * @param g the Graphics object for painting
+         * @param g the Graphics context to paint on
          */
         @Override
         protected void paintComponent(Graphics g) {
