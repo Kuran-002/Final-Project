@@ -35,9 +35,9 @@ public class RollButton extends JButton {
     public RollButton(String text, int width, int height, YahtzeeGameLogic model, JLabel rollremainLabel, List<DiceGui> diceButtons) {
         super(text);
 
-        ImageIcon normalIcon = new ImageIcon("Normal.png");
-        ImageIcon pressedIcon = new ImageIcon("Clicked.png");
-        ImageIcon hoverIcon = new ImageIcon("Hover.png");
+        ImageIcon normalIcon = new ImageIcon("Sprites/Normal.png");
+        ImageIcon pressedIcon = new ImageIcon("Sprites/Clicked.png");
+        ImageIcon hoverIcon = new ImageIcon("Sprites/Hover.png");
 
         normalIcon = new ImageIcon(normalIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
         pressedIcon = new ImageIcon(pressedIcon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));

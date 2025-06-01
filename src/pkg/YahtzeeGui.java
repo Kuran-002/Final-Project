@@ -89,7 +89,7 @@ public class YahtzeeGui extends JFrame {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                Image backgroundImage = new ImageIcon("TableBackground.png").getImage();
+                Image backgroundImage = new ImageIcon("Sprites/TableBackground.png").getImage();
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };

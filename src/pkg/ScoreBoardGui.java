@@ -53,7 +53,7 @@ public class ScoreBoardGui extends JPanel {
     public ScoreBoardGui(YahtzeeGameLogic gameLogic, YahtzeeGui yahtzeeGui) {
         this.gameLogic = gameLogic;
         this.yahtzeeGui = yahtzeeGui;
-        this.backgroundImage = new ImageIcon("ScoreboardBackGround.png").getImage();
+        this.backgroundImage = new ImageIcon("Sprites/ScoreboardBackGround.png").getImage();
 
         setLayout(new BorderLayout());
         setOpaque(false);
@@ -101,9 +101,9 @@ public class ScoreBoardGui extends JPanel {
      * Initializes the category buttons with icons and adds them to the categories panel.
      */
     private void initializeCategories() {
-        ImageIcon normalIcon = scaleIcon("NormalScore.png", 400, 50);
-        ImageIcon hoverIcon = scaleIcon("HoverScore.png", 400, 50);
-        ImageIcon pressedIcon = scaleIcon("ClickedScore.png", 400, 50);
+        ImageIcon normalIcon = scaleIcon("Sprites/NormalScore.png", 300, 40);
+        ImageIcon hoverIcon = scaleIcon("Sprites/HoverScore.png", 300, 40);
+        ImageIcon pressedIcon = scaleIcon("Sprites/ClickedScore.png", 300, 40);
 
         for (String displayName : categoryMap.keySet()) {
             JButton categoryButton = new JButton(displayName);
