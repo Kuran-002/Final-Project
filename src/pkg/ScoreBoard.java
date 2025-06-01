@@ -1,9 +1,23 @@
 package pkg;
 
 /**
- * This class manages the scoring state for a Yahtzee game.
- * It keeps track of which categories have been scored and the score values for each category.
+ * Lead Author(s):
+ * @author Khanh Bao Luong
+ * 
+ * References:
+ * ChatGPT, oracle.com
+ * 
+ * Version/date: 06/01/2025
+ * 
+ * Responsibilities of class:
+ * The ScoreBoard class manages the scoring logic and state for a Yahtzee game.
+ * It tracks whether each scoring category has already been used and stores the
+ * corresponding scores. It includes methods to calculate scores for all standard
+ * Yahtzee categories, validate combinations like full house and straights, and 
+ * compute the total game score. It also provides query methods to check scoring status 
+ * and retrieve category scores by name.
  */
+
 public class ScoreBoard {
     // Boolean flags indicating if each category has been scored
     private boolean onesScored = false;

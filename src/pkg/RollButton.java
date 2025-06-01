@@ -5,8 +5,20 @@ import java.awt.*;
 import java.util.List;
 
 /**
- * A custom JButton used for rolling dice in the Yahtzee game.
- * Displays images for normal, hover, and pressed states and updates the game state on click.
+ * Lead Author(s):
+ * @author Khanh Bao Luong
+ * 
+ * 
+ * References:
+ * Chatgpt, oracle.com
+ * 
+ * Version/date: 06/01/2025
+ * 
+ * Responsibilities of class:
+ * This class defines a customized JButton that acts as the "Roll" button in a Yahtzee game.
+ * It updates its visual state using different images for normal, hover, and pressed modes,
+ * and triggers a dice roll in the game logic when clicked.
+ * It also updates the remaining roll count display and rolls only the unheld dice in the UI.
  */
 public class RollButton extends JButton {
 

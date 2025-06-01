@@ -5,7 +5,17 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
-
+/**
+ * Lead Author(s):
+ * @author Khanh Bao Luong
+ * 
+ * Version/date: 06/01/2025
+ * 
+ * Responsibilities of class:
+ * This class defines a graphical button representing a dice, including dynamic icon updates 
+ * based on the dice's value, and visual feedback for held/unheld state. It interacts with the 
+ * YahtzeeGameLogic model to determine whether the hold functionality is allowed.
+ */
 public class DiceGui extends JButton {
     private ImageIcon[] icons;
     private Dice dice;

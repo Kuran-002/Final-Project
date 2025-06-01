@@ -1,8 +1,13 @@
 package pkg;
-
 /**
- * Represents a set of five dice used in the Yahtzee game.
- * Provides methods to roll dice, hold/unhold individual dice, and access dice states.
+ * Lead Author(s):
+ * @author Khanh Bao Luong
+ * Version/date: 06/01/2025
+ * 
+ * Responsibilities of class:
+ * This class represents a set of five dice used in the Yahtzee game.
+ * It manages rolling, holding, and retrieving individual dice, as well as bulk actions
+ * such as rolling or unholding all dice. It serves as the data model for the player's current dice state.
  */
 public class DiceSet {
     private static final int NUM_DICE = 5;

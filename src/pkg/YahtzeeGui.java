@@ -6,8 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The main GUI frame for the Yahtzee game.
- * It displays dice, score board, roll remaining label, and manages game-over overlay.
+ * Lead Author(s):
+ * @author Khanh Bao Luong
+ * 
+ * References:
+ * ChatGPT
+ * 
+ * Version/date: 06/01/2025
+ * 
+ * Responsibilities of class:
+ *Provides the main GUI frame for the Yahtzee game.
+ *Displays dice, score board, roll remaining label, and manages game-over overlay.
+ *Handles user interactions with the game interface.
  */
 public class YahtzeeGui extends JFrame {
     private YahtzeeGameLogic model;

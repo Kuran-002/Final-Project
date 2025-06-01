@@ -1,8 +1,21 @@
 package pkg;
 
 /**
- * Contains the logic for a game of Yahtzee, including dice rolling, holding, and scoring.
+ * Lead Author(s):
+ * @author Khanh Bao Luong
+ * 
+ * References:
+ * ChatGPT, oracle.com
+ * 
+ * Version/date: 06/01/2025
+ * 
+ * Responsibilities of class:
+ * Handles the core logic for a game of Yahtzee. This includes rolling dice, holding/unholding dice,
+ * scoring in various categories, and determining when the game is over. Manages the state of dice 
+ * using a DiceSet, and scoring via a ScoreBoard. Also supports game reset and event notification 
+ * through a GameListener interface.
  */
+
 public class YahtzeeGameLogic {
     private int rollRemaining = 3;
     private DiceSet diceSet;

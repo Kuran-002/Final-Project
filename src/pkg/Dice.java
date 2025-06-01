@@ -1,7 +1,19 @@
 package pkg;
 
 import java.util.Random;
-
+/**
+ * Lead Author(s):
+ * @author Khanh Bao Luong
+ * 
+ * 
+ * 
+ * Version/date: 06/01/2025
+ * 
+ * Responsibilities of class:
+ * This class represents a single six-sided die. It can be rolled to produce
+ * a random value between 1 and 6. It also supports a "hold" feature to 
+ * prevent rolling when necessary, useful for games like Yahtzee.
+ */
 public class Dice {
     private int value;
     private boolean isHeld;

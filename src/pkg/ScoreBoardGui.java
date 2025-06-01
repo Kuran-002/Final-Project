@@ -5,7 +5,23 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
+/**
+ * Lead Author(s):
+ * @author Khanh Bao Luong
+ * 
+ * References:
+ * ChatGPT, oracle.com
+ * 
+ * Version/date: 06/01/2025
+ * 
+ * Responsibilities of class:
+ * ScoreBoardGui is a Swing-based JPanel that visually represents the score categories and 
+ * total score for a Yahtzee game. It initializes category buttons with custom graphics, 
+ * handles category scoring through button interactions, and integrates with the 
+ * YahtzeeGameLogic and YahtzeeGui to update game state and UI. It also renders a 
+ * background image and formats the interface using layout managers for a visually 
+ * appealing scoreboard.
+ */
 public class ScoreBoardGui extends JPanel {
     private YahtzeeGameLogic gameLogic;
     private YahtzeeGui yahtzeeGui;
