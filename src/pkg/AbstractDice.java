@@ -1,8 +1,13 @@
 package pkg;
 
 import java.util.Random;
-
 /**
+ * Lead Author(s):
+ * @author Khanh Bao Luong
+ * 
+ * Version/date: 06/01/2025
+ * 
+ * Responsibilities of class:
  * AbstractDice provides base implementation for dice behavior.
  * It implements Rollable and includes common fields like value and isHeld.
  */
